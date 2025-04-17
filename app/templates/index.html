@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Check App</title>
+</head>
+<body>
+    <h2>Unified Health Diagnostic App</h2>
+    <form method="post">
+        <label for="model">Select Model:</label>
+        <select name="model" id="model" onchange="updateForm()">
+            <option value="diabetes">Diabetes</option>
+            <option value="heart">Heart</option>
+            <option value="parkinsons">Parkinsons</option>
+        </select><br><br>
+
+        <div id="inputs"></div>
+        <input type="hidden" name="feature_count" id="feature_count">
+
+        <br><input type="submit" value="Predict">
+    </form>
+    {% if result %}
+        <h3>{{ result }}</h3>
+    {% endif %}
+
+    <script>
+        const modelFeatures = {
+            diabetes: 8,
+            heart: 13,
+            parkinsons: 22
+        };
+
+        function updateForm() {
+            let model = document.getElementById('model').value;
+            let count = modelFeatures[model];
+            document.getElementById('feature_count').value = count;
+            let inputs = '';
+            for (let i = 1; i <= count; i++) {
+                inputs += `Feature ${i}: <input type="text" name="f${i}" required><br>`;
+            }
+            document.getElementById('inputs').innerHTML = inputs;
+        }
+
+        window.onload = updateForm;
+    </script>
+</body>
+</html>
